@@ -1,4 +1,4 @@
-const { Router } = require('express');
+import { Router } from 'express';
 const { checkAuth } = require('../middleware/checkAuth');
 
 const router = Router();

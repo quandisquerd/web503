@@ -17,12 +17,12 @@
 > <br />
 > run command line line : `npm i -g babel-cli `
 
-# Setup mongodb
+# Setup mongodb for Windows
 1. Download [MongoDB Community](https://www.mongodb.com/try/download/community)
 
 1. Download [GUI Robo3T](https://robomongo.org/) not Studio Robo3T
 
-## Macos
+# Setup mongodb for Macos
 
 1. Run command line <br />
     ```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"```

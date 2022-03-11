@@ -20,9 +20,12 @@
 # Setup mongodb
 1. Download [MongoDB Community](https://www.mongodb.com/try/download/community)
 
-![alt text](./error/mongodb.png)
-
 1. Download [GUI Robo3T](https://robomongo.org/) not Studio Robo3T
 
-![alt text](./error/robo3t.png) 
+## Macos
 
+1. Run command line <br />
+    ```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"```
+2. brew tap mongodb/brew
+3. brew install mongodb-community
+4. brew services start mongodb-community

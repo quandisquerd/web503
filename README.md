@@ -16,3 +16,13 @@
 > ![alt text](./error/babel-node.jpg) 
 > <br />
 > run command line line : `npm i -g babel-cli `
+
+# Setup mongodb
+1. Download [MongoDB Community](https://www.mongodb.com/try/download/community)
+
+![alt text](./error/mongodb.png)
+
+1. Download [GUI Robo3T](https://robomongo.org/) not Studio Robo3T
+
+![alt text](./error/robo3t.png) 
+

@@ -15,4 +15,4 @@
 
 > ![alt text](./error/babel-node.jpg) 
 > <br />
-> run command line line : `npm i -g babel-node `
+> run command line line : `npm i -g babel-cli `

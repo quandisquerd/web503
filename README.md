@@ -12,3 +12,5 @@
     `
         "script": "nodemon ./src/app.js --exec babel-node -e js" 
     `
+> neu loi babel-node <br />
+> `npm i -g babel-node `

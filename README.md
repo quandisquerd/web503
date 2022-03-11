@@ -13,6 +13,7 @@
         "script": "nodemon ./src/app.js --exec babel-node -e js" 
     `
 
-> neu loi babel-node <br />
-> ![alt text](./error/babel-node.jpg)
-> `npm i -g babel-node `
+> <br />
+> ![alt text](./error/babel-node.jpg) <br />
+> 
+> run command line line : `npm i -g babel-node `

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-const { checkAuth } = require('../middleware/checkAuth');
+import { checkAuth } from '../middleware/checkAuth';
 
 const router = Router();
 
@@ -26,5 +26,4 @@ router.put("/product/:id", (req, res) => { // update product
     res.json(newProducts);
 })
 
-
-module.exports = router;
+export default router

@@ -23,7 +23,6 @@ export const list = async (req, res) => {
 }
 
 export const get = async (req, res) => {
-    console.log(req.params.id)
     try {
         const product = await Product.findOne({_id: req.params.id}).exec();
         res.json(product);
@@ -32,12 +31,26 @@ export const get = async (req, res) => {
             error: "Không có sản phẩm"
         })
     }
-    // res.json(data.find(item => item.id == req.params.id));
 }
-export const remove = (req, res) => {
-    res.json(data.filter(item => item.id != req.params.id));
+export const remove = async (req, res) => {
+    try {
+        const product = await Product.findOneAndDelete({_id: req.params.id}).exec();
+        res.json(product);
+    } catch (error) {
+        res.status(400).json({
+            error: "Xóa sản phẩm không thành công"
+        })
+    }
 }
-export const update = (req, res) => {
-    const result = data.map(item => item.id == req.params.id ? req.body : item)
-    res.json(result);
+export const update = async (req, res) => {
+    const condition = { id: req.params.id }
+    const update = req.body;
+    try {
+        const product = await Product.findOneAndUpdate(condition, update).exec();
+        res.json(product);
+    } catch (error) {
+        res.status(400).json({
+            error: "Xóa sản phẩm không thành công"
+        })
+    }
 }

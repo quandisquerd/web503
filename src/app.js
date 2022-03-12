@@ -10,7 +10,6 @@ app.use(morgan('tiny'));
 app.use(express.json())
 
 app.use("/api",productRoute);
-
 const PORT = 3001;
 app.listen(PORT, () => {
     console.log("Server is running port", PORT);

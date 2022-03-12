@@ -1,19 +1,8 @@
-// // fake data
-// const products = [
-//     {id: 1, name: "Product A"}, // item
-//     {id: 2, name: "Product B"} // item
-// ];
 import mongoose from "mongoose";
-
+// 1 Khởi tạo model
 const Product = mongoose.model('Product', { name: String });
 
-
-export const list = (req, res) => { 
-    res.json(products);
-}
-export const read = (req, res) => {
-    res.json(products.find(item => item.id === +req.params.id));
-}
+// API thêm sản phẩm
 export const create = async (req, res) => {
     try {
         const product = await new Product(req.body).save();
@@ -23,10 +12,22 @@ export const create = async (req, res) => {
             message: "Không thêm được sản phẩm anh ei"
         })
     }
-    
-    // const product  = req.body
-    // res.json(product);
 }
+// API list sản phẩm
+export const list = async (req, res) => { 
+    try {
+        const products = await Product.find();
+        res.json(products);
+    } catch (error) {
+        res.status(400).json({
+            message: "Lỗi không tìm được sản phẩm"
+        })
+    }
+}
+export const read = (req, res) => {
+    res.json(products.find(item => item.id === +req.params.id));
+}
+
 export const remove = (req, res) => {
     res.json(products.filter(item => item.id !== +req.params.id));
 }

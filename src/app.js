@@ -14,7 +14,7 @@ app.use(morgan('tiny'))
 app.use(express.json())
 
 // routes
-readdirSync(__dirname + "/routes").forEach(async (fileName) => {
+readdirSync(__dirname + "/routes").forEach((fileName) => {
     import("./routes/" + fileName)
         .then(({ default: router }) => router.default)
         .then((router) => {

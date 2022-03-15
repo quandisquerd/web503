@@ -1,7 +1,4 @@
-import mongoose from "mongoose";
-// 1 Khởi tạo model
-const Product = mongoose.model('Product', { name: String });
-
+import Product from '../models/product'
 // API thêm sản phẩm
 export const create = async (req, res) => {
     try {

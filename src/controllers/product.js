@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-const Product = mongoose.model('Product', { name: String });
+import Product from '../models/product';
 
 export const create = async (req, res) => {
     try {

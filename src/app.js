@@ -14,9 +14,13 @@ app.use(morgan('tiny'))
 app.use(express.json())
 
 // routes
-readdirSync(`${__dirname}/routes`).map(file => app.use("/api", require(`./routes/${file}`))) ;
-// app.use("/api", productRoute)
-
+readdirSync(__dirname + "/routes").forEach(async (fileName) => {
+    import("./routes/" + fileName)
+        .then(({ default: router }) => router.default)
+        .then((router) => {
+            app.use("/api", router);
+        });
+});
 // connection db
 mongoose.connect("mongodb://localhost:27017/we16310")
     .then(() => console.log("Ket noi DB thanh cong"))

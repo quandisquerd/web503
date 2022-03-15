@@ -10,4 +10,4 @@ router.get('/product/:id', checkAuth, get);
 router.delete('/product/:id', checkAuth, remove);
 router.put('/product/:id', checkAuth, update);
 
-module.exports = router;
+export default router;

@@ -5,7 +5,7 @@ const router = Router();
 
 // resful API
 router.get('/products', checkAuth, list);
-router.get('/product/:id', checkAuth, read);
+router.get('/product/   ', checkAuth, read);
 router.post('/products', checkAuth, create);
 router.delete('/product/:id', checkAuth, remove);
 router.patch("/product/:id", checkAuth, update )

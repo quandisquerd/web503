@@ -14,13 +14,14 @@ app.use(morgan('tiny'))
 app.use(express.json())
 
 // routes
-readdirSync(__dirname + "/routes").forEach((fileName) => {
-    import("./routes/" + fileName)
-        .then(({ default: router }) => router.default)
-        .then((router) => {
-            app.use("/api", router);
-        });
-});
+// readdirSync(__dirname + "/routes").forEach((fileName) => {
+//     import("./routes/" + fileName)
+//         .then(({ default: router }) => router.default)
+//         .then((router) => {
+//             app.use("/api", router);
+//     });
+// });
+app.use("/api", productRoute);
 // connection db
 mongoose.connect("mongodb://localhost:27017/we16310")
     .then(() => console.log("Ket noi DB thanh cong"))

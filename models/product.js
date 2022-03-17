@@ -13,6 +13,6 @@ const productSchema = new Schema({
     category: {
         type: ObjectId,
         ref: "Category"
-    }
+    },
 }, { timestamps: true});
 export default mongoose.model('Product', productSchema);

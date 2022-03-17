@@ -1,11 +1,11 @@
 // const express = require('express');
 import express from 'express';
 import cors from 'cors';
-import productRoute from './routes/product';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
-import { readdirSync } from 'fs';
-import path, { dirname } from 'path';
+
+import productRoute from './routes/product';
+import categoryRoute from './routes/category';
 
 const app = express();
 // middleware
@@ -22,6 +22,7 @@ app.use(express.json())
 //     });
 // });
 app.use("/api", productRoute);
+app.use("/api", categoryRoute);
 // connection db
 mongoose.connect("mongodb://localhost:27017/we16310")
     .then(() => console.log("Ket noi DB thanh cong"))

@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 
 import productRoute from '../routes/product';
+import categoryRoute from '../routes/category';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.json())
 
 // route
 app.use("/api",productRoute);
+app.use("/api",categoryRoute);
 
 // connnect database
 mongoose.connect('mongodb://localhost:27017/we16309')

@@ -15,19 +15,26 @@ const userSchema = new Schema({
         required: true
     }
 }, { timestamps: true});
-
 userSchema.methods = {
+    authenticate(password){
+        return this.password == this.encrytPassword(password);
+    },
     encrytPassword(password){
-        if(!password) return;
-        return createHmac('sha256', '123456').update(password).digest('hex');
+        if(!password) return
+        try {
+            return createHmac('sha256', '123456').update(password).digest('hex');
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
-userSchema.pre("save", function save(next) {
+userSchema.pre("save", function(next){
     try {
         this.password = this.encrytPassword(this.password);
         next();
     } catch (error) {
-        console.log(error);
+        
     }
-});
+})
+
 export default mongoose.model("User", userSchema);

@@ -13,20 +13,28 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    salt: {
+        type: String
     }
 }, { timestamps: true});
+
+userSchema.pre("save", function(next){
+    this.salt = uuidv4()
+    this.password = this.encryptPassword(this.password)
+    next();
+});
 userSchema.methods = {
+    authenticate(password){
+        return this.password === this.encryptPassword(password)
+    },
     encryptPassword(password){
         if(!password) return
         try {
-            return createHmac("sha256", "abc").update(password).digest("hex");
+            return createHmac("sha256", this.salt).update(password).digest("hex");
         } catch (error) {
             console.log(error);
         }
     }
 }
-userSchema.pre("save", function(next){
-    this.password = this.encryptPassword(this.password)
-    next();
-});
 export default mongoose.model('User', userSchema);

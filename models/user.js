@@ -20,6 +20,9 @@ const userSchema = new Schema({
 }, { timestamps: true});
 
 userSchema.methods = {
+    authenticate(password){ //123456
+        return this.password == this.encrytPassword(password);
+    },
     encrytPassword(password){
         if(!password) return 
         try {

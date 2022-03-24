@@ -1,30 +1,25 @@
 import User from "../models/user";
 
 export const signup = async (req, res) => {
+    const { email, name, password} = req.body
     try {
-        const { name, email, password} = req.body;
-        // tài khoản có tồn tài không?
         const existUser = await User.findOne({email}).exec();
         if(existUser){
             res.json({
-                message: "Email đã tồn tại, vui lòng đăng ký email khác"
+                message: "Email đã tồn tại"
             })
-        }
-
-        const user = await new User({name, email, password}).save();
+        };
+        const user = await new User({email, name, password}).save();
         res.json({
             user: {
                 _id: user._id,
-                name: user.name,
                 email: user.email,
+                name: user.name
             }
-        });    
-    } catch (error) {
-        res.json(400).json({
-            message: "Không tạo được tài khoản"
         })
+    } catch (error) {
+        
     }
-    
 }
 export const signin = (req, res) => {
     try {

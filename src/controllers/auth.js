@@ -36,7 +36,7 @@ export const signin = async (req, res) => {
             message: "Mat khau khong dung"
         })
     }
-    const token = jwt.sign({email}, "123456", { expiresIn: 60 * 60 });
+    const token = jwt.sign({_id: user._id}, "123456", { expiresIn: 60 * 60 });
     res.json({
         token,
         user: {

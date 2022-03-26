@@ -15,13 +15,18 @@ export const requireSignin = expressJWT({
     requestProperty: "auth" // req.auth    
 });
 export const isAuth = (req, res, next) => {
-    console.log('req.profile',req.profile);
-    console.log('req.auth',req.auth);
-
     const status = req.profile._id == req.auth._id;
     if(!status){
         res.status(400).json({
             message: "Ban khong co quyen truy cap"
+        })
+    }
+    next();
+}
+export const isAdmin = (req, res, next) => {
+    if(req.profile.role === 0){
+        res.status(401).json({
+            message: "Bạn không phải là admin, chim cút"
         })
     }
     next();

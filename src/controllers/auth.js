@@ -7,7 +7,7 @@ export const signup = async (req, res) => {
         // kiem tra user co ton tai khong?
         const existUser = await User.findOne({email}).exec();
         if(existUser){
-            res.json({
+            return res.status(400).json({
                 message: "User da ton tai"
             })
         }
@@ -27,17 +27,17 @@ export const signin = async (req, res) => {
     const { email, password} = req.body;
     const user = await User.findOne({email}).exec();
     if(!user){
-        res.status(401).json({
+        return res.status(400).json({
             message: "User khong ton tai"
         })
     }
     if(!user.authenticate(password)){
-        res.status(401).json({
+        return res.status(400).json({
             message: "Mat khau khong dung"
         })
     }
     const token = jwt.sign({_id: user._id}, "123456", { expiresIn: 60 * 60 });
-    res.json({
+    return res.json({
         token,
         user: {
             _id: user._id,

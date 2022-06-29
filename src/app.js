@@ -2,27 +2,14 @@
 import express from 'express';
 import 'dotenv/config';
 
+import routerProduct from './routes/product';
+
 const app = express();
 
 app.use(express.json());
-
-const data = [
-    { id: 1, name: "product A" },
-    { id: 2, name: "product B" },
-];
-
-app.get("/products", (req, res) => {
-    console.log('thong tin req', req.query)
-});
-app.get("/products/:id", (req, res) => {
-    console.log('thong tin params', req.params)
-});
-app.post("/products", (req, res) => {
-    console.log('thong tin body', req.body)
-});
-
+app.use(routerProduct);
 
 app.listen(process.env.PORT, () => {
-    console.log('Kết nối thành công')
+    console.log('Kết nối thành công, cổng ' + process.env.PORT)
 })
 

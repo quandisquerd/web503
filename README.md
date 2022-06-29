@@ -18,7 +18,7 @@
    `
     import 'dotenv\config'
    `
-> ![alt text](./error/babel-node.jpg) 
+> ![alt text](https://res.cloudinary.com/ecommercer2021/image/upload/v1656487859/babel-node_gdvaek.jpg) 
 > <br />
 > run command line line : `npm i -g babel-cli `
 

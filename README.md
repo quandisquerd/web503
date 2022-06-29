@@ -1,6 +1,6 @@
 # Setup folder
 # Setup environment
-1. npm i --save-dev nodemon babel-cli babel-preset-env babel-preset-stage-0
+1. npm i --save-dev nodemon babel-cli babel-preset-env babel-preset-stage-0 dotenv
 2. npm i express mongoose
 3. create file .babelrc in root folder<br />
 
@@ -14,7 +14,10 @@
     `
         "script": "nodemon ./src/app.js --exec babel-node -e js" 
     `
-
+5. app.js
+   `
+    import 'dotenv\config'
+   `
 > ![alt text](./error/babel-node.jpg) 
 > <br />
 > run command line line : `npm i -g babel-cli `

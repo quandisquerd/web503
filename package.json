@@ -1,0 +1,17 @@
+{
+  "name": "sum22",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.1.3",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.18"
+  }
+}

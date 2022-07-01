@@ -2,15 +2,19 @@ import Product from '../models/product'
 
 
 export const list = async (req, res) => {
-    // nodejs 18
-    const data = await Product.find();
-    res.json(data);
+    try {
+        const data = await Product.find();
+        res.json(data);
+    } catch (error) {
+        res.status(400).json({
+            error: "Không có sản phẩm nào"
+        })
+    }
 };
 export const read = async (req, res) => {
     try {
         const id = req.params.id;
-        // const product = data.find((item) => item.id == id);
-        const product = await Product.findOne({_id: id});
+        const product = await Product.findOne({_id: id}).exec();
         res.json(product);
     } catch (error) {
         res.status(400).json({
@@ -18,22 +22,21 @@ export const read = async (req, res) => {
         });
     }
 };
-export const add = (req, res) => {
+export const add = async (req, res) => {
     try {
-        const product = req.body; 
-        data.push({id: data.length + 1, ...product})
-        res.json(data);
+        const product = await new Product(req.body).save();
+        res.json(product);
     } catch (error) {
         res.status(400).json({
             error: 'Không thêm được sản phẩm'
         })
     }
 }
-export const remove = (req, res) => {
+export const remove = async (req, res) => {
     try {
         const id = req.params.id; 
-        const products = data.filter(item => item.id !== +id);
-        res.json(products);
+        const product = await Product.findOneAndDelete({_id: id}).exec();
+        res.json(product);
     } catch (error) {
         res.status(400).json({
             error: 'Không thêm được sản phẩm'
@@ -41,12 +44,10 @@ export const remove = (req, res) => {
     }
 }
 
-export const update =  (req, res) => {
+export const update = async (req, res) => {
     try {
-        const id = req.params.id; 
-        const newProduct = {id, ...req.body};
-        const products = data.map(item => item.id == id ? newProduct : item);
-        res.json(products);
+        const product = await Product.findOneAndUpdate({_id: req.params.id}, req.body, { new: true } )
+        res.json(product);
     } catch (error) {
         res.status(400).json({
             error: 'Không thêm được sản phẩm'

@@ -1,9 +1,7 @@
-const data = [
-    { id: 1, name: "product A" },
-    { id: 2, name: "product B" },
-];
 
-export const list = (req, res) => {
+export const list = async (req, res) => {
+    // nodejs 18
+    const data = await ( await fetch(`https://6110f09bc38a0900171f0ed0.mockapi.io/products`)).json()
     res.json(data);
 };
 export const read = (req, res) => {

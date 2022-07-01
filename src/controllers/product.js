@@ -1,13 +1,16 @@
+import Product from '../models/product'
+
 
 export const list = async (req, res) => {
     // nodejs 18
-    const data = await ( await fetch(`https://6110f09bc38a0900171f0ed0.mockapi.io/products`)).json()
+    const data = await Product.find();
     res.json(data);
 };
-export const read = (req, res) => {
+export const read = async (req, res) => {
     try {
         const id = req.params.id;
-        const product = data.find((item) => item.id == id);
+        // const product = data.find((item) => item.id == id);
+        const product = await Product.findOne({_id: id});
         res.json(product);
     } catch (error) {
         res.status(400).json({

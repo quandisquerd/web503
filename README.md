@@ -23,9 +23,7 @@
 > run command line line : `npm i -g babel-cli `
 
 # Setup mongodb & Robo3T for Windows
-1. Download [MongoDB Community](https://www.mongodb.com/try/download/community)
-
-2. Download [GUI Robo3T](https://robomongo.org/) not Studio Robo3T
+1. Download [MongoDB Community](https://www.mongodb.com/try/download/communit
 
 # Setup mongodb for Macos
 

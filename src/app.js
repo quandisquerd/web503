@@ -7,7 +7,7 @@ import routerProduct from './routes/product';
 const app = express();
 
 app.use(express.json());
-app.use(routerProduct);
+app.use("/api",routerProduct);
 
 app.listen(process.env.PORT, () => {
     console.log('Kết nối thành công, cổng ' + process.env.PORT)

@@ -9,7 +9,7 @@ const productSchema = mongoose.Schema({
     },
     category: {
         type: mongoose.ObjectId,
-        ref: 'category'
+        ref: 'Category'
     }
 });
 

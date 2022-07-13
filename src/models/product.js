@@ -6,6 +6,10 @@ const productSchema = mongoose.Schema({
     },
     price: {
         type: Number
+    },
+    category: {
+        type: mongoose.ObjectId,
+        ref: 'category'
     }
 });
 

@@ -16,9 +16,17 @@ const userSchema = mongoose.Schema({
 });
 
 userSchema.methods = {
+    authenticate(password) {
+        console.log("2");
+        return this.password === this.encrytPassword(password);
+    },
     encrytPassword: (password) => {
-        if (!password) return false;
-        return createHmac("sha256", "abc").update(password).digest("hex");
+        if (!password) return;
+        try {
+            return createHmac("sha256", "abc").update(password).digest("hex");
+        } catch (error) {
+            console.log(error);
+        }
     },
 };
 

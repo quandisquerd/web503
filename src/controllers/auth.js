@@ -1,4 +1,5 @@
 import User from "../models/user";
+import jwt from "jsonwebtoken";
 
 export const signup = async (req, res) => {
     try {
@@ -8,11 +9,14 @@ export const signup = async (req, res) => {
                 message: "Email đã tồn tại",
             });
         }
+
         const user = await new User(req.body).save();
+        console.log(user);
         return res.status(200).json({
             user: {
                 email: user.email,
                 name: user.name,
+                role: user.role,
             },
         });
     } catch (error) {
@@ -36,8 +40,11 @@ export const signin = async (req, res) => {
                 message: "Sai mat khau",
             });
         }
+        const token = jwt.sign({ id: user._id }, "123456", { expiresIn: 60 * 60 });
         return res.status(200).json({
+            token,
             user: {
+                id: user._id,
                 email: user.email,
             },
         });

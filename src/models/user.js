@@ -1,19 +1,26 @@
 import mongoose from "mongoose";
 import { createHmac } from "crypto";
 
-const userSchema = mongoose.Schema({
-    name: {
-        type: String,
+const userSchema = mongoose.Schema(
+    {
+        name: {
+            type: String,
+        },
+        email: {
+            type: String,
+            required: true,
+        },
+        password: {
+            type: String,
+            minlength: 6,
+        },
+        role: {
+            type: Number,
+            default: 0,
+        },
     },
-    email: {
-        type: String,
-        required: true,
-    },
-    password: {
-        type: String,
-        minlength: 6,
-    },
-});
+    { timestamps: true }
+);
 
 userSchema.methods = {
     authenticate(password) {

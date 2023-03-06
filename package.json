@@ -1,0 +1,24 @@
+{
+    "name": "sp23",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "nodemon --experimental-specifier-resolution=node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/datlt2306/web503.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/datlt2306/web503/issues"
+    },
+    "homepage": "https://github.com/datlt2306/web503#readme",
+    "devDependencies": {
+        "nodemon": "^2.0.21"
+    }
+}

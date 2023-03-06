@@ -1,6 +1,6 @@
 const http = require("http");
 
-http.createServer(function (req, res) {
+const server = http.createServer(function (req, res) {
     const products = [
         { id: 1, name: "Product 1" },
         { id: 2, name: "Product 2" },
@@ -19,7 +19,9 @@ http.createServer(function (req, res) {
         products.push({ id: 3, name: "Product 3" });
         res.end(JSON.stringify(products));
     }
-}).listen(8080, function () {
+});
+
+server.listen(8080, function () {
     console.log("Server is running port 8080");
 });
 // npm init -y

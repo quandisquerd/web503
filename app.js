@@ -49,18 +49,45 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/", function (req, res) {
-    res.send(`<form action="/products" method="post">
-            <input type="text" placeholder="Product Name" name="productName" />
-            <button>Submit</button>
-        </form>`);
-});
+// Trả về danh sách
 app.get("/products", function (req, res) {
     res.json(products);
 });
-app.post("/products", (req, res) => {
-    console.log(req.body);
+// Trả về 1 phần tử
+app.get("/products/:id", function (req, res) {
+    const id = req.params.id;
+    const product = products.find((product) => product.id == id);
+    res.json({
+        message: "Product found",
+        product,
+    });
 });
+app.post("/products", (req, res) => {
+    const body = req.body;
+    products.push(body);
+    res.json({
+        message: "Product created",
+        products,
+    });
+});
+app.delete("/products/:id", (req, res) => {
+    const id = req.params.id;
+    const newProducts = products.filter((product) => product.id != id);
+    res.status(200).json({
+        message: "Product deleted",
+        products: newProducts,
+    });
+});
+app.put("/products/:id", (req, res) => {
+    const id = req.params.id;
+    const body = req.body;
+    const newProducts = products.map((product) => (product.id == id ? body : product));
+    res.status(200).json({
+        message: "Product updated",
+        products: newProducts,
+    });
+});
+
 app.listen(8080, function () {
     console.log("Server is running port 8080");
 });

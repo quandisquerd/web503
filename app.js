@@ -44,16 +44,35 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send(`<h1>Home Page</h1>`);
-});
 app.get("/api/products", (req, res) => {
     res.json(products);
 });
+app.get("/api/products/:id", (req, res) => {
+    const currentProduct = products.find((item) => item.id == req.params.id);
+    res.status(200).json({
+        message: "Product found",
+        data: currentProduct,
+    });
+});
 app.post("/api/products", (req, res) => {
+    // req.body -> lấy giá trị (objet) từ client gửi lên
     res.status(201).json({
         message: "Product created",
         data: req.body,
+    });
+});
+app.delete("/api/products/:id", (req, res) => {
+    const newProducts = products.filter((item) => item.id != req.params.id);
+    res.status(201).json({
+        message: "Product created",
+        data: newProducts,
+    });
+});
+app.put("/api/products/:id", (req, res) => {
+    const newProducts = products.map((item) => (item.id == req.params.id ? req.body : item));
+    res.status(200).json({
+        message: "Product updated",
+        data: newProducts,
     });
 });
 

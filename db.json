@@ -1,10 +1,6 @@
 {
   "products": [
     {
-      "name": "Product mới update ahihi",
-      "id": 1
-    },
-    {
       "name": "Product mới updated sản phẩm mới",
       "id": 2
     },
@@ -12,6 +8,14 @@
       "name": "Product mới updated ahihi",
       "price": 300,
       "id": 3
+    },
+    {
+      "name": "Product mới u10",
+      "id": 4
+    },
+    {
+      "name": "Product mới u10 ",
+      "id": 5
     }
   ]
 }

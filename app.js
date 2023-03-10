@@ -10,24 +10,34 @@ app.get("/api/products", async function (req, res) {
     const { data } = await axios.get("http://localhost:3002/products");
     res.json(data);
 });
+
 // Trả về 1 phần tử
 app.get("/api/products/:id", async function (req, res) {
-    // Chờ đợi kết quả trả về từ JSON server
-    const { data } = await axios.get("http//localhost:3002/products/" + req.params.id);
-    // Trả về kết quả
+    const { data } = await axios.get(`http//localhost:3002/products/${req.params.id}`);
     res.json(data);
 });
+
+// Thêm
 app.post("/api/products", async (req, res) => {
     const body = req.body;
     const { data } = await axios.post("http://localhost:3002/products", body);
-    res.json(data);
+    res.json({
+        message: "Thêm sản phẩm thành công",
+        data,
+    });
 });
+
+// Xóa sản phẩm
 app.delete("/api/products/:id", async (req, res) => {
-    await axios.delete("http://localhost:3002/products/" + req.params.id);
+    await axios.delete(`http://localhost:3002/products/${req.params.id}`);
     res.json({ message: "Xóa thành công" });
 });
+
+// Cập nhật sản phẩm
 app.put("/api/products/:id", async (req, res) => {
-    const { data } = await axios.put("http://localhost:3002/products/" + req.params.id, req.body);
+    const id = req.params.id;
+    const body = req.body;
+    const { data } = await axios.put(`http://localhost:3002/products/${id}`, body);
     res.json({
         message: "Cập nhật thành công",
         data,

@@ -1,78 +1,45 @@
-const products = [
-    { id: 1, name: "Product A" },
-    { id: 2, name: "Product B" },
-];
-
-// import http from "http";
-
-// const server = http.createServer((req, res) => {
-//     const name = "Dat";
-//     const body = [];
-//     if (req.url == "/") {
-//         res.setHeader("Content-Type", "text/html");
-//         res.end(`<form action="/about" method="post">
-//                 <input type="text" name="name"/>
-//                 <button>Submit</button>
-//             </form>
-//         `);
-//     }
-//     if (req.url == "/about" && req.method == "POST") {
-//         req.on("data", function (chunk) {
-//             //= name"Dat"
-//             body.push(chunk);
-//         });
-//         req.on("end", function () {
-//             const bodyParse = Buffer.concat(body).toString().split("=")[1];
-//             const value = {
-//                 name: bodyParse,
-//             };
-//             console.log(value);
-//         });
-//         res.end(`<h1>hello ${name}</h1>`);
-//     }
-//     if (req.url == "/api/products") {
-//         res.end(JSON.stringify(products));
-//     }
-// });
-// server.listen(8080, () => {
-//     console.log("Server is running on port 8080");
-// });
-
 import express from "express";
+import axios from "axios";
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/api/products", (req, res) => {
-    res.json(products);
+app.get("/api/products", async (req, res) => {
+    const { data: products } = await axios.get("http://localhost:3001/products");
+    res.status(200).json(products);
 });
-app.get("/api/products/:id", (req, res) => {
-    const currentProduct = products.find((item) => item.id == req.params.id);
+app.get("/api/products/:id", async (req, res) => {
+    const { data: product } = await axios.get(`http://localhost:3001/products/${req.params.id}`);
     res.status(200).json({
         message: "Product found",
-        data: currentProduct,
+        data: product,
     });
 });
-app.post("/api/products", (req, res) => {
-    // req.body -> lấy giá trị (objet) từ client gửi lên
+// client -> server nodes
+app.post("/api/products", async (req, res) => {
+    // gửi request từ server nodes -> json-server
+    const { data: product } = await axios.post("http://localhost:3001/products", req.body);
     res.status(201).json({
         message: "Product created",
-        data: req.body,
+        data: product,
     });
 });
-app.delete("/api/products/:id", (req, res) => {
-    const newProducts = products.filter((item) => item.id != req.params.id);
-    res.status(201).json({
-        message: "Product created",
-        data: newProducts,
-    });
-});
-app.put("/api/products/:id", (req, res) => {
-    const newProducts = products.map((item) => (item.id == req.params.id ? req.body : item));
+
+app.delete("/api/products/:id", async (req, res) => {
+    await axios.delete(`http://localhost:3001/products/${req.params.id}`);
     res.status(200).json({
-        message: "Product updated",
-        data: newProducts,
+        message: "Sản phẩm đã được xóa thành công",
+    });
+});
+app.patch("/api/products/:id", async (req, res) => {
+    const { data: product } = await axios.patch(
+        `http://localhost:3001/products/${req.params.id}`,
+        req.body
+    );
+    res.status(200).json({
+        message: "Sản phẩm đã được cập nhật thành công",
+        data: product,
     });
 });
 

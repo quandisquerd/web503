@@ -1,6 +1,5 @@
 import express from "express";
-import axios from "axios";
-import productRouter from "./routes/product.js";
+import productRouter from "./routes/product";
 
 const app = express();
 

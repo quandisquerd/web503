@@ -1,0 +1,9 @@
+{
+  "products": [
+    {
+      "name": "Product mới 1.2 updated",
+      "id": 1,
+      "price": 500
+    }
+  ]
+}

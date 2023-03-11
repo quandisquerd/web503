@@ -1,16 +1,11 @@
-import express from "express";
+import dotenv from "dotenv";
 import axios from "axios";
+dotenv.config();
 
-const app = express();
-
-// đăng ký middleware" giải mã dữ liệu json
-app.use(express.json());
-
-app.get("/api/products", async (req, res) => {
+export const getAll = async (req, res) => {
     try {
-        const { data: products } = await axios.get(
-            "https://63f5d86059c944921f67a58c.mockapi.io/products"
-        );
+        const { data: products } = await axios.get(`${process.env.API_URL}/products`);
+        console.log(products);
         if (products.length === 0) {
             return res.status(404).json({
                 message: "Không có sản phẩm nào",
@@ -25,11 +20,12 @@ app.get("/api/products", async (req, res) => {
             message: error,
         });
     }
-});
-app.get("/api/products/:id", async (req, res) => {
+};
+
+export const get = async (req, res) => {
     try {
         const { data: product } = await axios.get(
-            `https://63f5d86059c944921f67a58c.mockapi.io/products/${req.params.id}`
+            `${process.env.API_URL}/products/${req.params.id}`
         );
         if (!product) {
             return res.json({
@@ -45,14 +41,10 @@ app.get("/api/products/:id", async (req, res) => {
             message: error,
         });
     }
-});
-
-app.post("/api/products", async (req, res) => {
+};
+export const create = async (req, res) => {
     try {
-        const { data: product } = await axios.post(
-            `https://63f5d86059c944921f67a58c.mockapi.io/products`,
-            req.body
-        );
+        const { data: product } = await axios.post(`${process.env.API_URL}/products`, req.body);
         if (!product) {
             return res.json({
                 message: "Thêm sản phẩm không thành công",
@@ -67,12 +59,11 @@ app.post("/api/products", async (req, res) => {
             message: error,
         });
     }
-});
-
-app.put("/api/products/:id", async (req, res) => {
+};
+export const update = async (req, res) => {
     try {
         const { data: product } = await axios.put(
-            `https://63f5d86059c944921f67a58c.mockapi.io/products/${req.params.id}`,
+            `${process.env.API_URL}/products/${req.params.id}`,
             req.body
         );
         if (!product) {
@@ -89,11 +80,12 @@ app.put("/api/products/:id", async (req, res) => {
             message: error,
         });
     }
-});
-app.delete("/api/products/:id", async (req, res) => {
+};
+
+export const remove = async (req, res) => {
     try {
         const { data: product } = await axios.delete(
-            `https://63f5d86059c944921f67a58c.mockapi.io/products/${req.params.id}`
+            `${process.env.API_URL}/products/${req.params.id}`
         );
         // if (!product) {
         //     return res.json({
@@ -109,8 +101,4 @@ app.delete("/api/products/:id", async (req, res) => {
             message: error,
         });
     }
-});
-
-app.listen(8080, function () {
-    console.log("Server is running on port 8080");
-});
+};

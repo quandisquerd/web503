@@ -1,8 +1,22 @@
 import axios from "axios";
+import Joi from "joi";
+
+const productSchema = Joi.object({
+    name: Joi.string().required(),
+    price: Joi.number().required(),
+    description: Joi.string(),
+});
 
 export const getAll = async (req, res) => {
-    const { data } = await axios.get("http://localhost:3002/products");
-    return res.json(data);
+    try {
+        const { data } = await axios.get("http://localhost:3002/products");
+        if (data.length == 0) {
+            return res.json({
+                message: "Không có sản phẩm nào",
+            });
+        }
+        return res.json(data);
+    } catch (error) {}
 };
 export const get = async (req, res) => {
     try {
@@ -23,6 +37,12 @@ export const get = async (req, res) => {
 export const create = async (req, res) => {
     try {
         const body = req.body;
+        const { error } = productSchema.validate(body);
+        if (error) {
+            return res.json({
+                message: error.details[0].message,
+            });
+        }
         const { data } = await axios.post(`http://localhost:3002/products`, body);
         if (data.length === 0) {
             return res.status(400).json({

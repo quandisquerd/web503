@@ -16,6 +16,16 @@
     {
       "name": "Product mới u10 ",
       "id": 5
+    },
+    {
+      "name": "Product mới 111",
+      "price": "200",
+      "id": 6
+    },
+    {
+      "name": "Product mới 111",
+      "price": 200,
+      "id": 7
     }
   ]
 }

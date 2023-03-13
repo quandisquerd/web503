@@ -1,5 +1,11 @@
 import axios from "axios";
+import Joi from "joi";
 
+const productSchema = Joi.object({
+    name: Joi.string().required(),
+    price: Joi.number().required(),
+    description: Joi.string(),
+});
 export const getAll = async function (req, res) {
     try {
         const { data } = await axios.get("http://localhost:3002/products");
@@ -26,6 +32,14 @@ export const remove = async (req, res) => {
 export const add = async (req, res) => {
     try {
         const body = req.body;
+        const { error } = productSchema.validate(body);
+        if (error) {
+            const errors = error.details.map((errorItem) => errorItem.message);
+            return res.status(400).json({
+                message: errors,
+            });
+        }
+
         const { data } = await axios.post("http://localhost:3002/products", body);
         if (!data) {
             return res.status(400).json({ message: "Thêm sản phẩm thất bại" });

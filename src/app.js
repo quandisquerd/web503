@@ -1,10 +1,14 @@
 import express from "express";
 import productRouter from "./routes/product";
+import cors from "cors";
 
 const app = express();
 
+// middleware
 app.use(express.json());
+app.use(cors());
 
+// router
 app.use("/api", productRouter);
 
 export const viteNodeApp = app;

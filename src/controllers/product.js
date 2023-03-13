@@ -1,14 +1,9 @@
-import express from "express";
 import axios from "axios";
 
-// khởi tạo
-const app = express();
-
-app.use(express.json());
-
-app.get("/api/products", async (req, res) => {
+export const getAll = async (req, res) => {
     try {
         const { data } = await axios.get(`http://localhost:3000/products`);
+        console.log(data);
         if (data.length === 0) {
             return res.status(200).json({
                 message: "Không có dữ liệu",
@@ -20,8 +15,8 @@ app.get("/api/products", async (req, res) => {
             message: error,
         });
     }
-});
-app.get("/api/products/:id", async (req, res) => {
+};
+export const get = async (req, res) => {
     try {
         const { data } = await axios.get(`http://localhost:3000/products/${req.params.id}}`);
         if (data.length === 0) {
@@ -35,9 +30,8 @@ app.get("/api/products/:id", async (req, res) => {
             message: error,
         });
     }
-});
-
-app.post("/api/products", async (req, res) => {
+};
+export const create = async (req, res) => {
     try {
         const { data } = await axios.post(`http://localhost:3000/products`, req.body);
         if (data.length === 0) {
@@ -51,9 +45,8 @@ app.post("/api/products", async (req, res) => {
             message: error,
         });
     }
-});
-
-app.put("/api/products/:id", async (req, res) => {
+};
+export const update = async (req, res) => {
     try {
         const { data } = await axios.put(
             `http://localhost:3000/products/${req.params.id}`,
@@ -70,9 +63,8 @@ app.put("/api/products/:id", async (req, res) => {
             message: error,
         });
     }
-});
-
-app.delete("/api/products/:id", async (req, res) => {
+};
+export const remove = async (req, res) => {
     try {
         await axios.delete(`http://localhost:3000/products/${req.params.id}`);
         return res.json({
@@ -83,10 +75,4 @@ app.delete("/api/products/:id", async (req, res) => {
             message: error,
         });
     }
-});
-
-app.listen(8080, () => {
-    console.log("Server is running on port 8080");
-});
-
-export const viteNodeApp = app;
+};

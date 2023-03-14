@@ -5,7 +5,7 @@
     "main": "app.js",
     "type": "module",
     "scripts": {
-        "dev": "concurrently vite \"json-server --watch db.json\""
+        "dev": "concurrently vite \"json-server-auth --watch db.json\""
     },
     "repository": {
         "type": "git",

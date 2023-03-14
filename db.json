@@ -9,5 +9,12 @@
       "price": 200,
       "id": "V8VSVDc"
     }
+  ],
+  "users": [
+    {
+      "email": "datlt2306@gmail.com",
+      "password": "$2a$10$9L2gfvmmUV3EAzabXeyuN..ftDo69ElghRxtIP/rsFbkBtAt9xqn.",
+      "id": 1
+    }
   ]
 }

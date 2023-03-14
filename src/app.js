@@ -1,5 +1,6 @@
 import express from "express";
 import productRouter from "./routes/product";
+import authRouter from "./routes/auth";
 
 const app = express();
 
@@ -7,6 +8,7 @@ const app = express();
 app.use(express.json());
 
 // router
-app.use(productRouter);
+app.use("/api", productRouter);
+app.use("/api", authRouter);
 
 export const viteNodeApp = app;

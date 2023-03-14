@@ -3,9 +3,9 @@ import express from "express";
 import { create, get, getAll, remove, update } from "../controllers/product";
 
 const router = express.Router();
-router.get("/api/products/:id", get);
-router.post("/api/products", create);
-router.put("/api/products/:id", update);
-router.delete("/api/products/:id", remove);
+router.get("/products/:id", get);
+router.post("/products", create);
+router.put("/products/:id", update);
+router.delete("/products/:id", remove);
 
 export default router;

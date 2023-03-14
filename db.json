@@ -1,3 +1,13 @@
 {
-    "products": [{ "id": "1", "name": "Product A" }]
+  "products": [
+    {
+      "id": "1",
+      "name": "Product A"
+    },
+    {
+      "name": "Product mới 1123",
+      "price": 200,
+      "id": "V8VSVDc"
+    }
+  ]
 }

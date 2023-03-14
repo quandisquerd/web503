@@ -1,8 +1,16 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import joi from "joi";
 
 dotenv.config();
 const { API_URI } = process.env;
+
+const productSchema = joi.object({
+    name: joi.string().required(),
+    price: joi.number().required(),
+    description: joi.string(),
+});
+
 export const getAll = async (req, res) => {
     try {
         const { data: products } = await axios.get(`${API_URI}/products`);
@@ -35,6 +43,12 @@ export const get = async function (req, res) {
 };
 export const create = async function (req, res) {
     try {
+        const { error } = productSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({
+                message: error.details[0].message,
+            });
+        }
         const { data: product } = await axios.post(`${API_URI}/products`, req.body);
         if (!product) {
             return res.json({

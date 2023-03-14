@@ -40,7 +40,7 @@ export const get = async (req, res) => {
                 message: "Không tìm thấy sản phẩm",
             });
         }
-        res.json({
+        return res.json({
             message: "Lấy sản phẩm thành công",
             product,
         });
@@ -65,7 +65,7 @@ export const create = async (req, res) => {
                 message: "Thêm sản phẩm không thành công",
             });
         }
-        res.json({
+        return res.json({
             message: "Thêm sản phẩm thành công",
             product,
         });
@@ -86,7 +86,7 @@ export const update = async (req, res) => {
                 message: "Cập nhật sản phẩm không thành công",
             });
         }
-        res.json({
+        return res.json({
             message: "Cập nhật sản phẩm thành công",
             product,
         });
@@ -106,7 +106,7 @@ export const remove = async (req, res) => {
         //         message: "Xóa sản phẩm không thành công",
         //     });
         // }
-        res.json({
+        return res.json({
             message: "Xóa sản phẩm thành công",
             product,
         });

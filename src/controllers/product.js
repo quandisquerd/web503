@@ -1,5 +1,6 @@
 import axios from "axios";
 import Joi from "joi";
+import Product from "../models/product";
 
 const productSchema = Joi.object({
     name: Joi.string().required(),
@@ -29,7 +30,7 @@ export const remove = async (req, res) => {
         });
     }
 };
-export const add = async (req, res) => {
+export const create = async (req, res) => {
     try {
         const body = req.body;
         const { error } = productSchema.validate(body);
@@ -40,7 +41,8 @@ export const add = async (req, res) => {
             });
         }
 
-        const { data } = await axios.post("http://localhost:3002/products", body);
+        // const { data } = await axios.post("http://localhost:3002/products", body);
+        const data = await Product.create(body);
         if (!data) {
             return res.status(400).json({ message: "Thêm sản phẩm thất bại" });
         }

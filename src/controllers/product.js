@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import Product from "../models/product";
 export const getAll = async (req, res) => {
     try {
         // gửi request từ server nodes -> json-server
@@ -41,7 +41,8 @@ export const get = async (req, res) => {
 };
 export const create = async (req, res) => {
     try {
-        const { data: product } = await axios.post("http://localhost:3001/products", req.body);
+        // const { data: product } = await axios.post("http://localhost:3001/products", req.body);
+        const product = await Product.create(req.body);
         if (!product) {
             return res.status(400).json({
                 message: "Không thể tạo sản phẩm",

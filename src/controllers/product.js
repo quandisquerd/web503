@@ -1,5 +1,6 @@
 import axios from "axios";
 import Joi from "joi";
+import Product from "../models/product";
 
 const productSchema = Joi.object({
     name: Joi.string().required(),
@@ -9,7 +10,8 @@ const productSchema = Joi.object({
 
 export const getAll = async (req, res) => {
     try {
-        const { data } = await axios.get("http://localhost:3002/products");
+        const data = await Product.find();
+
         if (data.length == 0) {
             return res.json({
                 message: "Không có sản phẩm nào",
@@ -21,7 +23,8 @@ export const getAll = async (req, res) => {
 export const get = async (req, res) => {
     try {
         const id = req.params.id;
-        const { data } = await axios.get(`http://localhost:3002/products/${id}`);
+        // const { data } = await axios.get(`http://localhost:3002/products/${id}`);
+        const data = await Product.findOne({ _id: id });
         if (data.length === 0) {
             return res.status(200).json({
                 message: "Không có sản phẩm",
@@ -43,7 +46,7 @@ export const create = async (req, res) => {
                 message: error.details[0].message,
             });
         }
-        const { data } = await axios.post(`http://localhost:3002/products`, body);
+        const data = await Product.create(body);
         if (data.length === 0) {
             return res.status(400).json({
                 message: "Thêm sản phẩm thất bại",

@@ -1,6 +1,7 @@
 import express from "express";
 import productRouter from "./routes/product";
 import cors from "cors";
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -10,6 +11,8 @@ app.use(cors());
 
 // router
 app.use("/api", productRouter);
+
+mongoose.connect("mongodb://localhost:27017/we17303");
 
 export const viteNodeApp = app;
 

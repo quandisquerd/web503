@@ -9,7 +9,8 @@ const productSchema = Joi.object({
 });
 export const getAll = async function (req, res) {
     try {
-        const { data } = await axios.get("http://localhost:3002/products");
+        // const { data } = await axios.get("http://localhost:3002/products");
+        const data = await Product.find();
         if (data.length === 0) {
             return res.status(400).json({ message: "Không có sản phẩm nào" });
         }
@@ -22,8 +23,8 @@ export const getAll = async function (req, res) {
 };
 export const remove = async (req, res) => {
     try {
-        await axios.delete(`http://localhost:3002/products/${req.params.id}`);
-        return res.json({ message: "Xóa thành công" });
+        const product = await Product.findByIdAndDelete(req.params.id);
+        return res.json({ message: "Xóa thành công", product });
     } catch (error) {
         return res.json({
             message: error,
@@ -41,7 +42,6 @@ export const create = async (req, res) => {
             });
         }
 
-        // const { data } = await axios.post("http://localhost:3002/products", body);
         const data = await Product.create(body);
         if (!data) {
             return res.status(400).json({ message: "Thêm sản phẩm thất bại" });
@@ -60,7 +60,7 @@ export const update = async (req, res) => {
     try {
         const id = req.params.id;
         const body = req.body;
-        const { data } = await axios.put(`http://localhost:3002/products/${id}`, body);
+        const data = await Product.findOneAndUpdate({ _id: id }, body, { new: true });
         if (!data) {
             return res.status(400).json({ message: "Cập nhật thất bại" });
         }
@@ -76,7 +76,8 @@ export const update = async (req, res) => {
 };
 export const get = async function (req, res) {
     try {
-        const { data } = await axios.get(`http://localhost:3002/products/${req.params.id}`);
+        // const { data } = await axios.get(`http://localhost:3002/products/${req.params.id}`);
+        const data = await Product.findOne({ _id: req.params.id });
         if (!data) {
             return res.status(400).json({ message: "Không có sản phẩm nào" });
         }

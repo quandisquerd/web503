@@ -5,7 +5,7 @@
     "main": "app.js",
     "type": "module",
     "scripts": {
-        "dev": "concurrently \"json-server --watch db.json --port 3002\" \"vite\""
+        "dev": "vite"
     },
     "repository": {
         "type": "git",

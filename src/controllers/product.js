@@ -1,6 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import joi from "joi";
+import Product from "../models/product";
 
 dotenv.config();
 const { API_URI } = process.env;
@@ -13,7 +14,8 @@ const productSchema = joi.object({
 
 export const getAll = async (req, res) => {
     try {
-        const { data: products } = await axios.get(`${API_URI}/products`);
+        // const { data: products } = await axios.get(`${API_URI}/products`);
+        const products = await Product.find();
         if (products.length === 0) {
             return res.json({
                 message: "Không có sản phẩm nào",
@@ -28,7 +30,8 @@ export const getAll = async (req, res) => {
 };
 export const get = async function (req, res) {
     try {
-        const { data: product } = await axios.get(`${API_URI}/products/${req.params.id}`);
+        // const { data: product } = await axios.get(`${API_URI}/products/${req.params.id}`);
+        const product = await Product.findById(req.params.id);
         if (!product) {
             return res.json({
                 message: "Không có sản phẩm nào",
@@ -49,7 +52,8 @@ export const create = async function (req, res) {
                 message: error.details[0].message,
             });
         }
-        const { data: product } = await axios.post(`${API_URI}/products`, req.body);
+        // const { data: product } = await axios.post(`${API_URI}/products`, req.body);
+        const product = await Product.create(req.body);
         if (!product) {
             return res.json({
                 message: "Không thêm sản phẩm",

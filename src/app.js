@@ -1,6 +1,7 @@
 import express from "express";
 import productRouter from "./routes/product";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 // config
 dotenv.config();
@@ -11,6 +12,9 @@ app.use(express.json());
 
 //router
 app.use("/api", productRouter);
+
+// connect to db
+mongoose.connect("mongodb://localhost:27017/we17309");
 
 export const viteNodeApp = app;
 // -> workspace

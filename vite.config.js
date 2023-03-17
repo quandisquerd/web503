@@ -1,15 +1,16 @@
 import { defineConfig } from "vite";
 import { VitePluginNode } from "vite-plugin-node";
 import { loadEnv } from "vite";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export default defineConfig(({ command, mode }) => {
-    const env = loadEnv(mode, process.cwd());
-
     return {
         // ...vite configures
         server: {
             // vite server configs, for details see [vite doc](https://vitejs.dev/config/#server-host)
-            port: env.PORT,
+            port: process.env.PORT,
         },
         plugins: [
             ...VitePluginNode({

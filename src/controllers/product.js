@@ -1,8 +1,9 @@
 import axios from "axios";
+import Product from "../models/product";
 
 export const getAll = async (req, res) => {
     try {
-        const { data } = await axios.get(`http://localhost:3000/products`);
+        const data = await Product.find();
         console.log(data);
         if (data.length === 0) {
             return res.status(200).json({
@@ -18,7 +19,8 @@ export const getAll = async (req, res) => {
 };
 export const get = async (req, res) => {
     try {
-        const { data } = await axios.get(`http://localhost:3000/products/${req.params.id}}`);
+        const data = await Product.findById(req.params.id);
+
         if (data.length === 0) {
             return res.status(200).json({
                 message: "Không có dữ liệu",
@@ -33,7 +35,8 @@ export const get = async (req, res) => {
 };
 export const create = async (req, res) => {
     try {
-        const { data } = await axios.post(`http://localhost:3000/products`, req.body);
+        // const { data } = await axios.post(`http://localhost:3000/products`, req.body);
+        const data = await Product.create(req.body);
         if (data.length === 0) {
             return res.status(200).json({
                 message: "Không thêm được sản phẩm",

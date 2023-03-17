@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import productRouter from "./routes/product";
+import mongoose from "mongoose";
+
 dotenv.config();
 
 // khởi tạo
@@ -10,8 +12,6 @@ app.use(express.json());
 
 app.use("/api", productRouter);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`);
-});
+mongoose.connect(process.env.URI);
 
 export const viteNodeApp = app;

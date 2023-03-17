@@ -34,9 +34,6 @@ export const getAll = async (req, res) => {
 
 export const get = async (req, res) => {
     try {
-        // const { data: product } = await axios.get(
-        //     `${process.env.API_URL}/products/${req.params.id}`
-        // );
         const product = await Product.findById(req.params.id);
         if (!product) {
             return res.json({
@@ -81,10 +78,6 @@ export const create = async (req, res) => {
 };
 export const update = async (req, res) => {
     try {
-        // const { data: product } = await axios.put(
-        //     `${process.env.API_URL}/products/${req.params.id}`,
-        //     req.body
-        // );
         const product = await Product.findOneAndUpdate({ _id: req.params.id }, req.body, {
             new: true,
         });
@@ -105,14 +98,6 @@ export const update = async (req, res) => {
 };
 export const remove = async (req, res) => {
     try {
-        // const { data: product } = await axios.delete(
-        //     `${process.env.API_URL}/products/${req.params.id}`
-        // );
-        // if (!product) {
-        //     return res.json({
-        //         message: "Xóa sản phẩm không thành công",
-        //     });
-        // }
         const product = await Product.findByIdAndDelete(req.params.id);
         return res.json({
             message: "Xóa sản phẩm thành công",

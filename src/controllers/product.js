@@ -1,4 +1,3 @@
-import axios from "axios";
 import dotenv from "dotenv";
 import joi from "joi";
 import Product from "../models/product";
@@ -71,10 +70,7 @@ export const create = async function (req, res) {
 };
 export const update = async function (req, res) {
     try {
-        const { data: product } = await axios.patch(
-            `${API_URI}/products/${req.params.id}`,
-            req.body
-        );
+        const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!product) {
             return res.json({
                 message: "Cập nhật sản phẩm không thành công",
@@ -92,9 +88,10 @@ export const update = async function (req, res) {
 };
 export const remove = async function (req, res) {
     try {
-        await axios.delete(`${API_URI}/products/${req.params.id}`);
-        res.json({
+        const product = await Product.findByIdAndDelete(req.params.id);
+        return res.json({
             message: "Xóa sản phẩm thành công",
+            product,
         });
     } catch (error) {
         return res.status(400).json({

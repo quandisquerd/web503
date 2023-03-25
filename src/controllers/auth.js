@@ -50,7 +50,6 @@ export const signin = async (req, res) => {
                 message: errors,
             });
         }
-        // mã hóa mật khẩu
 
         const user = await User.findOne({ email });
         if (!user) {
@@ -58,6 +57,15 @@ export const signin = async (req, res) => {
                 message: "Tài khoản không tồn tại",
             });
         }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({
+                message: "Khong dung mat khau",
+            });
+        }
+
+        user.password = undefined;
+
         return res.status(200).json({
             message: "Đăng nhập thành công",
             user,

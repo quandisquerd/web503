@@ -63,11 +63,13 @@ export const signin = async (req, res) => {
                 message: "Khong dung mat khau",
             });
         }
+        const token = jwt.sign({ _id: user._id }, "banThayDat", { expiresIn: "1h" });
 
         user.password = undefined;
 
         return res.status(200).json({
             message: "Đăng nhập thành công",
+            accessToken: token,
             user,
         });
     } catch (error) {}

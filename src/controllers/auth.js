@@ -82,3 +82,12 @@ export const signin = async (req, res) => {
         });
     } catch (error) {}
 };
+
+/**
+ * Bước 1: Nhận request từ client gửi lên
+ * Bước 2: Kiểm tra cú pháp của request
+ * Bước 3: Kiểm tra xem email đã tồn tại trong db chưa? nếu tồn tại thì trả về thông báo
+ * Bước 4: So sánh mật khẩu từ client gửi lên với mật khẩu trong db
+ * Bước 5: Nếu mật khẩu không khớp thì trả về thông báo
+ * Bước 6: Tạo token và trả về client bao gồm thông tin user và token
+ */

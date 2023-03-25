@@ -5,7 +5,7 @@ import User from "../models/user";
 import dotenv from "dotenv";
 
 dotenv.config();
-import { signupSchema } from "../schemas/auth";
+import { signinSchema, signupSchema } from "../schemas/auth";
 
 export const signup = async (req, res) => {
     try {
@@ -40,6 +40,43 @@ export const signup = async (req, res) => {
         const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: 60 * 60 });
         return res.status(201).json({
             message: "Đăng ký thành công",
+            accessToken: token,
+            user,
+        });
+    } catch (error) {}
+};
+
+export const signin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const { error } = signinSchema.validate(req.body, { abortEarly: false });
+
+        if (error) {
+            const errors = error.details.map((err) => err.message);
+            return res.status(400).json({
+                message: errors,
+            });
+        }
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({
+                message: "Tài khoản không tồn tại",
+            });
+        }
+        // nó vừa mã hóa và vừa so sánh
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({
+                message: "Sai mật khẩu",
+            });
+        }
+
+        user.password = undefined;
+        // tạo token từ server
+        const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: 60 * 60 });
+
+        return res.status(201).json({
+            message: "Đăng nhập thành công",
             accessToken: token,
             user,
         });

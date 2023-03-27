@@ -34,6 +34,7 @@ export const get = async (req, res) => {
     }
 };
 export const create = async (req, res) => {
+    console.log("req.user", req.user);
     try {
         // const { data } = await axios.post(`http://localhost:3000/products`, req.body);
         const data = await Product.create(req.body);

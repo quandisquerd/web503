@@ -56,7 +56,7 @@ export const signin = async (req, res) => {
 
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({
+            return res.status(404).json({
                 message: "Tài khoản không tồn tại",
             });
         }

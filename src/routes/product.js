@@ -1,5 +1,4 @@
 import express from "express";
-import axios from "axios";
 import { create, get, getAll, remove, update } from "../controllers/product";
 import { checkPermission } from "../middlewares/checkPermission";
 

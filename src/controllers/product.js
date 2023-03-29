@@ -1,9 +1,9 @@
-import axios from "axios";
 import Product from "../models/product";
 export const getAll = async (req, res) => {
     try {
         // gửi request từ server nodes -> json-server
-        const { data: products } = await axios.get("http://localhost:3001/products");
+        // const { data: products } = await axios.get("http://localhost:3001/products");
+        const products = await Product.find();
         // Nếu mảng không có sản phẩm nào thì trả về 404
         if (products.length === 0) {
             res.status(404).json({
@@ -21,9 +21,7 @@ export const getAll = async (req, res) => {
 };
 export const get = async (req, res) => {
     try {
-        const { data: product } = await axios.get(
-            `http://localhost:3001/products/${req.params.id}`
-        );
+        const product = await Product.findById(req.params.id);
         if (!product) {
             return res.status(404).json({
                 message: "Không tìm thấy sản phẩm",
@@ -41,7 +39,6 @@ export const get = async (req, res) => {
 };
 export const create = async (req, res) => {
     try {
-        // const { data: product } = await axios.post("http://localhost:3001/products", req.body);
         const product = await Product.create(req.body);
         if (!product) {
             return res.status(400).json({
@@ -60,9 +57,10 @@ export const create = async (req, res) => {
 };
 export const remove = async (req, res) => {
     try {
-        await axios.delete(`http://localhost:3001/products/${req.params.id}`);
+        const product = await Product.findByIdAndDelete(req.params.id);
         return res.status(200).json({
             message: "Sản phẩm đã được xóa thành công",
+            product,
         });
     } catch (error) {
         return res.status(500).json({
@@ -73,10 +71,7 @@ export const remove = async (req, res) => {
 
 export const update = async (req, res) => {
     try {
-        const { data: product } = await axios.patch(
-            `http://localhost:3001/products/${req.params.id}`,
-            req.body
-        );
+        const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!product) {
             return res.status(404).json({
                 message: "Không tìm thấy sản phẩm",

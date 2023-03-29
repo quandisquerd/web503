@@ -47,6 +47,7 @@ export const signup = async (req, res) => {
 // B5: Trả về client
 
 export const signin = async (req, res) => {
+    console.log(1);
     try {
         const { error } = signinSchema.validate(req.body, { abortEarly: false });
         if (error) {

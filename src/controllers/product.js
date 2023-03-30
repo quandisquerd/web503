@@ -9,6 +9,7 @@ const productSchema = joi.object({
     name: joi.string().required(),
     price: joi.number().required(),
     description: joi.string(),
+    category: joi.string().required(),
 });
 
 export const getAll = async (req, res) => {
@@ -34,7 +35,10 @@ export const getAll = async (req, res) => {
 
 export const get = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findById(req.params.id).populate({
+            path: "category",
+            select: "name",
+        });
         if (!product) {
             return res.json({
                 message: "Không tìm thấy sản phẩm",

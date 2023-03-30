@@ -8,17 +8,39 @@ const categorySchema = joi.object({
     name: joi.string().required(),
 });
 
-export const get = async (req, res) => {
+export const getAll = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
-        if (!product) {
+        const categories = await Category.find({}).populate({
+            path: "products",
+        });
+        if (!categories) {
             return res.json({
                 message: "Không tìm thấy sản phẩm",
             });
         }
         return res.json({
             message: "Lấy sản phẩm thành công",
-            product,
+            categories,
+        });
+    } catch (error) {
+        return res.status(400).json({
+            message: error,
+        });
+    }
+};
+export const get = async (req, res) => {
+    try {
+        const category = await Category.findById(req.params.id).populate({
+            path: "products",
+        });
+        if (!category) {
+            return res.json({
+                message: "Không tìm thấy sản phẩm",
+            });
+        }
+        return res.json({
+            message: "Lấy sản phẩm thành công",
+            category,
         });
     } catch (error) {
         return res.status(400).json({

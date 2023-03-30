@@ -1,22 +1,12 @@
 import dotenv from "dotenv";
-import axios from "axios";
-import joi from "joi";
 import Product from "../models/product";
+import { productSchema } from "../schemas/product";
 
 dotenv.config();
 
-const productSchema = joi.object({
-    name: joi.string().required(),
-    price: joi.number().required(),
-    description: joi.string(),
-    category: joi.string().required(),
-});
-
 export const getAll = async (req, res) => {
     try {
-        // const { data: products } = await axios.get(`${process.env.API_URL}/products`);
         const products = await Product.find();
-        console.log(products);
         if (products.length === 0) {
             return res.status(404).json({
                 message: "Không có sản phẩm nào",
@@ -36,7 +26,7 @@ export const getAll = async (req, res) => {
 export const get = async (req, res) => {
     try {
         const product = await Product.findById(req.params.id).populate({
-            path: "category",
+            path: "categoryId",
             select: "name",
         });
         if (!product) {
@@ -63,7 +53,6 @@ export const create = async (req, res) => {
                 message: error.details[0].message,
             });
         }
-        // const { data: product } = await axios.post(`${process.env.API_URL}/products`, req.body);
         const product = await Product.create(req.body);
         if (!product) {
             return res.json({

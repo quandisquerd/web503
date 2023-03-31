@@ -25,10 +25,7 @@ export const getAll = async (req, res) => {
 
 export const get = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id).populate({
-            path: "categoryId",
-            select: "name",
-        });
+        const product = await Product.findById(req.params.id).populate("categoryId");
         if (!product) {
             return res.json({
                 message: "Không tìm thấy sản phẩm",

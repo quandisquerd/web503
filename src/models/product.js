@@ -11,7 +11,6 @@ const productSchema = new mongoose.Schema(
         categoryId: {
             type: mongoose.Types.ObjectId,
             ref: "Category",
-            required: true,
         },
     },
     { timestamps: true, versionKey: false }

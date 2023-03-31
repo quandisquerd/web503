@@ -1,16 +1,13 @@
 import Joi from "joi";
+import Category from "../models/category";
 import Product from "../models/product";
-
-const productSchema = Joi.object({
+const categorySchema = Joi.object({
     name: Joi.string().required(),
-    price: Joi.number().required(),
-    description: Joi.string(),
-    categoryId: Joi.string().required(),
 });
 
 export const getAll = async (req, res) => {
     try {
-        const data = await Product.find();
+        const data = await Category.find();
 
         if (data.length == 0) {
             return res.json({
@@ -18,84 +15,83 @@ export const getAll = async (req, res) => {
             });
         }
         return res.json(data);
-    } catch (error) {
-        return res.status(400).json({
-            message: error.message,
-        });
-    }
+    } catch (error) {}
 };
 export const get = async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await Product.findOne({ _id: id }).populate("categoryId", "-__v");
-        if (data.length === 0) {
+        const category = await Category.findById(id);
+        if (category.length === 0) {
             return res.status(200).json({
                 message: "Không có sản phẩm",
             });
         }
-        return res.status(200).json(data);
+        const products = await Product.find({ categoryId: id });
+        return res.status(200).json({
+            ...category.toObject(),
+            products,
+        });
     } catch (error) {
         return res.status(400).json({
-            message: error.message,
+            message: error,
         });
     }
 };
 export const create = async (req, res) => {
     try {
         const body = req.body;
-        const { error } = productSchema.validate(body);
+        const { error } = categorySchema.validate(body);
         if (error) {
             return res.json({
-                message: error.details[0].message,
+                message: error.details.map((item) => item.message),
             });
         }
-        const data = await Product.create(body);
+        const data = await Category.create(body);
         if (data.length === 0) {
             return res.status(400).json({
-                message: "Thêm sản phẩm thất bại",
+                message: "Thêm danh mục thất bại",
             });
         }
         return res.status(200).json({
-            message: "Thêm sản phẩm thành công",
+            message: "Thêm danh mục thành công",
             data,
         });
     } catch (error) {
         return res.status(400).json({
-            message: error.message,
+            message: error,
         });
     }
 };
 export const remove = async (req, res) => {
     try {
-        // await axios.delete(`http://localhost:3002/products/${req.params.id}`);
-        const data = await Product.findByIdAndDelete(req.params.id);
+        const data = await Category.findByIdAndDelete(req.params.id);
         return res.json({
-            message: "Xóa sản phẩm thành công",
+            message: "Xóa danh mục thành công",
             data,
         });
     } catch (error) {
         return res.status(400).json({
-            message: error.message,
+            message: error,
         });
     }
 };
 export const update = async (req, res) => {
     try {
-        const data = await Product.findOneAndUpdate({ _id: req.params.id }, req.body, {
+        const data = await Category.findOneAndUpdate({ _id: req.params.id }, req.body, {
             new: true,
         });
         if (!data) {
             return res.status(400).json({
-                message: "Cập nhật sản phẩm thất bại",
+                message: "Cập nhật danh mục thất bại",
             });
         }
         return res.json({
-            message: "Cập nhật sản phẩm thành công",
+            message: "Cập nhật danh mục thành công",
             data,
         });
     } catch (error) {
         return res.status(400).json({
-            message: error.message,
+            message: error,
         });
     }
 };

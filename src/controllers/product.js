@@ -6,6 +6,7 @@ const productSchema = Joi.object({
     name: Joi.string().required(),
     price: Joi.number().required(),
     description: Joi.string(),
+    categoryId: Joi.string().required(),
 });
 export const getAll = async function (req, res) {
     try {
@@ -76,8 +77,10 @@ export const update = async (req, res) => {
 };
 export const get = async function (req, res) {
     try {
-        // const { data } = await axios.get(`http://localhost:3002/products/${req.params.id}`);
-        const data = await Product.findOne({ _id: req.params.id });
+        const data = await Product.findOne({ _id: req.params.id }).populate({
+            path: "categoryId",
+            select: "-__v",
+        });
         if (!data) {
             return res.status(400).json({ message: "Không có sản phẩm nào" });
         }

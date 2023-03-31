@@ -10,16 +10,27 @@ export const checkPermission = async (req, res, next) => {
         }
         const token = req.headers.authorization.split(" ")[1];
 
-        const { _id } = await jwt.verify(token, "banThayDat");
-
-        const user = await User.findById(_id);
-        console.log("user", user);
-        if (user.role !== "admin") {
-            return res.status(401).json({
-                message: "Bạn không có quyền truy cập tài nguyên này",
-            });
-        }
-        next();
+        jwt.verify(token, "banThayDat", async (error, payload) => {
+            if (error) {
+                if (error.name == "TokenExpiredError") {
+                    return res.status(401).json({
+                        message: "Token hết hạn",
+                    });
+                }
+                if (error.name == "JsonWebTokenError") {
+                    return res.status(401).json({
+                        message: "Token không hợp lệ",
+                    });
+                }
+            }
+            const user = await User.findById(payload._id);
+            if (user.role !== "admin") {
+                return res.status(401).json({
+                    message: "Bạn không có quyền truy cập tài nguyên này",
+                });
+            }
+            next();
+        });
     } catch (error) {}
 };
 // B1: Kiểm tra trong header.authorization có token không? Nếu không có thì trả về lỗi

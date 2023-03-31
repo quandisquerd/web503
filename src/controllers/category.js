@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import joi from "joi";
+import Product from "../models/product";
 import Category from "../models/category";
 
 dotenv.config();
@@ -30,17 +31,20 @@ export const getAll = async (req, res) => {
 };
 export const get = async (req, res) => {
     try {
-        const category = await Category.findById(req.params.id).populate({
-            path: "products",
-        });
+        const category = await Category.findById(req.params.id).populate("products");
+        console.log("category", category);
         if (!category) {
             return res.json({
                 message: "Không tìm thấy sản phẩm",
             });
         }
+        const products = await Product.find({ categoryId: req.params.id });
         return res.json({
             message: "Lấy sản phẩm thành công",
-            category,
+            category: {
+                ...category.toObject(),
+                products,
+            },
         });
     } catch (error) {
         return res.status(400).json({

@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import Product from "../models/product";
 import { productSchema } from "../schemas/product";
-
+import Category from "../models/category";
 dotenv.config();
 
 export const getAll = async (req, res) => {
@@ -26,6 +26,7 @@ export const getAll = async (req, res) => {
 export const get = async (req, res) => {
     try {
         const product = await Product.findById(req.params.id).populate("categoryId");
+
         if (!product) {
             return res.json({
                 message: "Không tìm thấy sản phẩm",
@@ -51,6 +52,9 @@ export const create = async (req, res) => {
             });
         }
         const product = await Product.create(req.body);
+        await Category.findByIdAndUpdate(product.categoryId, {
+            $addToSet: { products: product._id },
+        });
         if (!product) {
             return res.json({
                 message: "Thêm sản phẩm không thành công",
@@ -62,7 +66,7 @@ export const create = async (req, res) => {
         });
     } catch (error) {
         return res.status(400).json({
-            message: error,
+            message: error.message,
         });
     }
 };

@@ -1,14 +1,18 @@
 {
-  "products": [
-    {
-      "name": "Product mới 1.2 updated",
-      "id": 1,
-      "price": 500
-    },
-    {
-      "name": "Product mới 1123",
-      "price": 200,
-      "id": 2
-    }
-  ]
+    "products": [
+        {
+            "name": "Product mới 1.2 updated",
+            "id": 1,
+            "price": 500,
+            "categoryId": "xxx"
+        },
+        {
+            "name": "Product mới 1123",
+            "price": 200,
+            "id": 2
+        }
+    ],
+    "categories": [
+      { id: xxx}
+    ]
 }

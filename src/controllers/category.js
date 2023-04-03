@@ -5,19 +5,29 @@ import Product from "../models/product";
 const categorySchema = Joi.object({
     name: Joi.string().required(),
 });
-export const get = async function (req, res) {
+export const getAll = async function (req, res) {
     try {
-        const category = await Category.findById(req.params.id);
+        const categories = await Category.find();
+        if (categories.length === 0) {
+            return res.status(400).json({ message: "Không có sản phẩm nào" });
+        }
+        return res.status(200).json(categories);
+    } catch (error) {
+        return res.json({
+            message: error.message,
+        });
+    }
+};
+export const get = async (req, res) => {
+    try {
+        const category = await Category.findById(req.params.id).populate("products");
         if (!category) {
             return res.status(400).json({ message: "Không có danh mục nào" });
         }
-        const products = await Product.find({ categoryId: req.params.id });
-        console.log(products);
-
-        return res.json({ ...category.toObject(), products });
+        return res.json(category);
     } catch (error) {
         return res.json({
-            message: error,
+            message: error.message,
         });
     }
 };
@@ -42,7 +52,36 @@ export const create = async (req, res) => {
         });
     } catch (error) {
         return res.json({
-            message: error,
+            message: error.message,
+        });
+    }
+};
+export const update = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const body = req.body;
+        const category = await Category.findOneAndUpdate({ _id: id }, body, { new: true });
+        if (!category) {
+            return res.status(400).json({ message: "Cập nhật thất bại" });
+        }
+        return res.json({
+            message: "Cập nhật thành công",
+            category,
+        });
+    } catch (error) {
+        return res.json({
+            message: error.message,
+        });
+    }
+};
+
+export const remove = async (req, res) => {
+    try {
+        const category = await Category.findByIdAndDelete(req.params.id);
+        return res.json({ message: "Xóa thành công", category });
+    } catch (error) {
+        return res.json({
+            message: error.message,
         });
     }
 };

@@ -2,11 +2,15 @@ import Product from "../models/product";
 import Category from "../models/category";
 
 export const getAll = async (req, res) => {
+    // req.query._sort => price
+    const options = {
+        limit: 10,
+        sort: {
+            [req.query._sort]: req.query._order === "desc" ? -1 : 1,
+        },
+    };
     try {
-        // gửi request từ server nodes -> json-server
-        // const { data: products } = await axios.get("http://localhost:3001/products");
-        const products = await Product.find();
-        // Nếu mảng không có sản phẩm nào thì trả về 404
+        const { docs: products } = await Product.paginate({}, options);
         if (products.length === 0) {
             res.status(404).json({
                 message: "Không có sản phẩm nào",
@@ -96,3 +100,11 @@ export const update = async (req, res) => {
         });
     }
 };
+
+// const myName = "ahihi";
+
+// const myInfo = {
+//     [myName]: "Dat",
+// };
+
+// myInfo.ahihi;

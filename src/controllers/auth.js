@@ -41,7 +41,7 @@ export const signup = async (req, res) => {
         });
     } catch (error) {
         return res.status(400).json({
-            message: error,
+            message: error.message,
         });
     }
 };
@@ -82,7 +82,7 @@ export const signin = async (req, res) => {
         });
     } catch (error) {
         return res.status(400).json({
-            message: error,
+            message: error.message,
         });
     }
 };

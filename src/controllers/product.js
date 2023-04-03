@@ -3,7 +3,6 @@ import Product from "../models/product";
 export const getAll = async (req, res) => {
     try {
         const data = await Product.find();
-        console.log(data);
         if (data.length === 0) {
             return res.status(200).json({
                 message: "Không có dữ liệu",
@@ -12,7 +11,7 @@ export const getAll = async (req, res) => {
         return res.json(data);
     } catch (error) {
         return res.status(404).json({
-            message: error,
+            message: error.message,
         });
     }
 };
@@ -28,14 +27,12 @@ export const get = async (req, res) => {
         return res.json(data);
     } catch (error) {
         return res.status(404).json({
-            message: error,
+            message: error.message,
         });
     }
 };
 export const create = async (req, res) => {
-    console.log("req.user", req.user);
     try {
-        // const { data } = await axios.post(`http://localhost:3000/products`, req.body);
         const data = await Product.create(req.body);
         if (data.length === 0) {
             return res.status(200).json({
@@ -45,17 +42,12 @@ export const create = async (req, res) => {
         return res.json(data);
     } catch (error) {
         return res.status(404).json({
-            message: error,
+            message: error.message,
         });
     }
 };
 export const update = async (req, res) => {
     try {
-        // const { data } = await axios.put(
-        //     `http://localhost:3000/products/${req.params.id}`,
-        //     req.body
-        // );
-
         const data = await Product.findOneAndUpdate({ _id: req.params.id }, req.body, {
             new: true,
         });
@@ -67,7 +59,7 @@ export const update = async (req, res) => {
         return res.json(data);
     } catch (error) {
         return res.status(404).json({
-            message: error,
+            message: error.message,
         });
     }
 };
@@ -80,7 +72,7 @@ export const remove = async (req, res) => {
         });
     } catch (error) {
         return res.status(404).json({
-            message: error,
+            message: error.message,
         });
     }
 };

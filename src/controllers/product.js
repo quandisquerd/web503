@@ -50,6 +50,7 @@ export const create = async (req, res) => {
         }
         const product = await Product.create(req.body);
 
+        // Thêm ObjectId vào thuộc tính products trong model Category
         await Category.findByIdAndUpdate(product.categoryId, {
             $addToSet: {
                 products: product._id,

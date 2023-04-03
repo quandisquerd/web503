@@ -2,11 +2,12 @@ import Product from "../models/product";
 import Category from "../models/category";
 
 export const getAll = async (req, res) => {
-    // req.query._sort => price
+    const { _page = 1, _limit = 10, _sort = "createAt", _order = "asc" } = req.query;
     const options = {
-        limit: 10,
+        page: _page,
+        limit: _limit,
         sort: {
-            [req.query._sort]: req.query._order === "desc" ? -1 : 1,
+            [_sort]: _order === "desc" ? -1 : 1,
         },
     };
     try {

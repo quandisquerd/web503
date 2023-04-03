@@ -1,10 +1,17 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
-const productSchema = new Schema({
-    name: {
-        type: String,
+const productSchema = new Schema(
+    {
+        name: {
+            type: String,
+        },
+        price: Number,
+        categoryId: {
+            type: mongoose.Types.ObjectId,
+            ref: "Category",
+        },
     },
-    price: Number,
-});
+    { timestamps: true, versionKey: false }
+);
 
 export default mongoose.model("Product", productSchema);

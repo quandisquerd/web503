@@ -1,21 +1,15 @@
+import Category from "../models/category";
 import Product from "../models/product";
-import joi from "joi";
-
-const productSchema = joi.object({
-    name: joi.string().required(),
-    price: joi.number().required(),
-    categoryId: joi.string().required(),
-});
 
 export const getAll = async (req, res) => {
     try {
-        const data = await Product.find();
-        if (data.length === 0) {
+        const categories = await Category.find();
+        if (categories.length === 0) {
             return res.status(200).json({
                 message: "Không có dữ liệu",
             });
         }
-        return res.json(data);
+        return res.json(categories);
     } catch (error) {
         return res.status(404).json({
             message: error.message,
@@ -24,14 +18,17 @@ export const getAll = async (req, res) => {
 };
 export const get = async (req, res) => {
     try {
-        const data = await Product.findById(req.params.id).populate("categoryId");
+        const category = await Category.findById(req.params.id);
 
-        if (data.length === 0) {
+        if (category.length === 0) {
             return res.status(200).json({
                 message: "Không có dữ liệu",
             });
         }
-        return res.json(data);
+
+        const products = await Product.find({ categoryId: req.params.id });
+
+        return res.json({ ...category.toObject(), products });
     } catch (error) {
         return res.status(404).json({
             message: error.message,
@@ -40,19 +37,13 @@ export const get = async (req, res) => {
 };
 export const create = async (req, res) => {
     try {
-        const { error } = productSchema.validate(req.body);
-        if (error) {
-            return res.status(400).json({
-                message: error.details.map((err) => err.message),
-            });
-        }
-        const data = await Product.create(req.body);
-        if (data.length === 0) {
+        const category = await Category.create(req.body);
+        if (category.length === 0) {
             return res.status(200).json({
-                message: "Không thêm được sản phẩm",
+                message: "Không thêm được danh mục",
             });
         }
-        return res.json(data);
+        return res.json(category);
     } catch (error) {
         return res.status(404).json({
             message: error.message,
@@ -61,15 +52,15 @@ export const create = async (req, res) => {
 };
 export const update = async (req, res) => {
     try {
-        const data = await Product.findOneAndUpdate({ _id: req.params.id }, req.body, {
+        const category = await Category.findOneAndUpdate({ _id: req.params.id }, req.body, {
             new: true,
         });
-        if (data.length === 0) {
+        if (category.length === 0) {
             return res.status(200).json({
-                message: "Cập nhật sản phẩm không thành công",
+                message: "Cập nhật danh mục không thành công",
             });
         }
-        return res.json(data);
+        return res.json(category);
     } catch (error) {
         return res.status(404).json({
             message: error.message,
@@ -78,10 +69,10 @@ export const update = async (req, res) => {
 };
 export const remove = async (req, res) => {
     try {
-        const data = await Product.findOneAndDelete({ _id: req.params.id });
+        const cate = await Category.findOneAndDelete({ _id: req.params.id });
         return res.json({
-            message: "Xóa sản phẩm thành công",
-            data,
+            message: "Xóa danh mục thành công",
+            cate,
         });
     } catch (error) {
         return res.status(404).json({

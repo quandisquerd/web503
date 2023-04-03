@@ -1,4 +1,6 @@
 import Product from "../models/product";
+import Category from "../models/category";
+
 export const getAll = async (req, res) => {
     try {
         // gửi request từ server nodes -> json-server
@@ -45,6 +47,13 @@ export const create = async (req, res) => {
                 message: "Không thể tạo sản phẩm",
             });
         }
+
+        await Category.findByIdAndUpdate(product.categoryId, {
+            $addToSet: {
+                products: product._id,
+            },
+        });
+
         return res.status(201).json({
             message: "Product created",
             data: product,

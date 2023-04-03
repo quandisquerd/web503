@@ -3,9 +3,8 @@ import { create, get, getAll, remove, update } from "../controllers/product";
 import { checkPermission } from "../middlewares/checkPermission";
 
 const router = express.Router();
-
 router.get("/products", getAll);
-router.get("/products/:id", get);
+router.get("/products/:id", get); // req.params.id
 router.post("/products", checkPermission, create);
 router.delete("/products/:id", checkPermission, remove);
 router.patch("/products/:id", checkPermission, update);

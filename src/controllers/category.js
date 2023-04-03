@@ -18,17 +18,13 @@ export const getAll = async (req, res) => {
 };
 export const get = async (req, res) => {
     try {
-        const category = await Category.findById(req.params.id);
-
+        const category = await Category.findById(req.params.id).populate("products");
         if (category.length === 0) {
             return res.status(200).json({
                 message: "Không có dữ liệu",
             });
         }
-
-        const products = await Product.find({ categoryId: req.params.id });
-
-        return res.json({ ...category.toObject(), products });
+        return res.json(category);
     } catch (error) {
         return res.status(404).json({
             message: error.message,

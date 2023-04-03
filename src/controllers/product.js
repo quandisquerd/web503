@@ -1,5 +1,6 @@
 import Product from "../models/product";
 import joi from "joi";
+import Category from "../models/category";
 
 const productSchema = joi.object({
     name: joi.string().required(),
@@ -41,18 +42,25 @@ export const get = async (req, res) => {
 export const create = async (req, res) => {
     try {
         const { error } = productSchema.validate(req.body);
+
         if (error) {
             return res.status(400).json({
                 message: error.details.map((err) => err.message),
             });
         }
-        const data = await Product.create(req.body);
-        if (data.length === 0) {
+        const product = await Product.create(req.body);
+
+        await Category.findByIdAndUpdate(product.categoryId, {
+            $addToSet: {
+                products: product._id,
+            },
+        });
+        if (product.length === 0) {
             return res.status(200).json({
                 message: "Không thêm được sản phẩm",
             });
         }
-        return res.json(data);
+        return res.json(product);
     } catch (error) {
         return res.status(404).json({
             message: error.message,

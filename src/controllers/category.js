@@ -25,16 +25,13 @@ export const getAll = async (req, res) => {
 };
 export const get = async function (req, res) {
     try {
-        const category = await Category.findById(req.params.id);
+        const category = await Category.findById(req.params.id).populate("products");
         if (!category) {
             return res.json({
                 message: "Không có danh mục nào",
             });
         }
-
-        const products = await Product.find({ categoryId: req.params.id });
-
-        return res.json({ ...category.toObject(), products });
+        return res.json(category);
     } catch (error) {
         return res.status(400).json({
             message: error.message,

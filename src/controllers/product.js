@@ -1,10 +1,9 @@
 import dotenv from "dotenv";
 import joi from "joi";
 import Product from "../models/product";
+import Category from "../models/category";
 
 dotenv.config();
-const { API_URI } = process.env;
-
 const productSchema = joi.object({
     name: joi.string().required(),
     price: joi.number().required(),
@@ -13,9 +12,16 @@ const productSchema = joi.object({
 });
 
 export const getAll = async (req, res) => {
+    const { _sort = "createAt", _order = "asc", _limit = 10, _page = 1 } = req.query;
+    const options = {
+        page: _page,
+        limit: _limit,
+        sort: {
+            [_sort]: _order === "desc" ? -1 : 1,
+        },
+    };
     try {
-        // const { data: products } = await axios.get(`${API_URI}/products`);
-        const products = await Product.find();
+        const products = await Product.paginate({}, options);
         if (products.length === 0) {
             return res.json({
                 message: "Không có sản phẩm nào",
@@ -51,13 +57,17 @@ export const create = async function (req, res) {
                 message: error.details[0].message,
             });
         }
-        // const { data: product } = await axios.post(`${API_URI}/products`, req.body);
         const product = await Product.create(req.body);
         if (!product) {
             return res.json({
                 message: "Không thêm sản phẩm",
             });
         }
+        await Category.findByIdAndUpdate(product.categoryId, {
+            $addToSet: {
+                products: product._id,
+            },
+        });
         return res.json({
             message: "Thêm sản phẩm thành công",
             data: product,
@@ -99,3 +109,13 @@ export const remove = async function (req, res) {
         });
     }
 };
+
+// computed property name
+
+// const myName = "price";
+
+// const myInfo = {
+//     [myName]: "Dat",
+// };
+
+// console.log(myInfo.price);

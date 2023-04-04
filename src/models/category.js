@@ -7,6 +7,12 @@ const categorySchema = new mongoose.Schema(
             require: true,
             minLength: 3,
         },
+        products: [
+            {
+                type: mongoose.Types.ObjectId,
+                ref: "Product",
+            },
+        ],
     },
     { timestamps: true, versionKey: false }
 );

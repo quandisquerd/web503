@@ -9,8 +9,17 @@ const productSchema = joi.object({
 });
 
 export const getAll = async (req, res) => {
+    const { _limit = 10, _sort = "createAt", _order = "asc", _page = 1 } = req.query;
+
+    const options = {
+        limit: _limit,
+        page: _page,
+        sort: {
+            [_sort]: _order === "desc" ? -1 : 1,
+        },
+    };
     try {
-        const data = await Product.find();
+        const data = await Product.paginate({}, options);
         if (data.length === 0) {
             return res.status(200).json({
                 message: "Không có dữ liệu",
@@ -98,3 +107,12 @@ export const remove = async (req, res) => {
         });
     }
 };
+
+// computed property name
+
+// const _sort = "createAt";
+
+// const myInfo = {
+//     [_sort]: "Dat",
+// };
+// console.log(myInfo.createAt); // Dat

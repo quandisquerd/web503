@@ -1,12 +1,11 @@
-import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
+import express from "express";
+import productRouter from "./routes/product";
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect(`mongodb://localhost:27017/bai-thi`);
-
+app.use("/api", productRouter);
 export const viteNodeApp = app;
